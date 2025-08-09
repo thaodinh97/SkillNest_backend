@@ -3,6 +3,7 @@ package com.example.skillnest.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +25,15 @@ public class User {
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
