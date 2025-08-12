@@ -1,6 +1,6 @@
 package com.example.skillnest.repositories;
 
-import com.example.skillnest.entities.User;
+import com.example.skillnest.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

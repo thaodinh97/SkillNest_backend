@@ -4,6 +4,7 @@ import com.example.skillnest.dto.requests.AuthRequest;
 import com.example.skillnest.dto.requests.IntrospectRequest;
 import com.example.skillnest.dto.responses.AuthResponse;
 import com.example.skillnest.dto.responses.IntrospectResponse;
+import com.example.skillnest.entity.User;
 import com.example.skillnest.exception.AppException;
 import com.example.skillnest.exception.ErrorCode;
 import com.example.skillnest.repositories.UserRepository;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -48,7 +48,7 @@ public class AuthService {
         if (!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED_EXCEPTION);
         }
-        var token = generateToken(authRequest.getEmail());
+        var token = generateToken(user);
         log.info("Token generated: {}", token);
         return AuthResponse.builder()
                 .token(token)
@@ -71,16 +71,17 @@ public class AuthService {
                 .build();
     }
 
-    private String generateToken(String email) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(email)
-                .issuer("skillnest")
+                .subject(user.getEmail())
+                .issuer("skill-nest")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("customClaim", "custom")
+                .claim("userId", user.getId().toString())
+                .claim("scope", user.getRole())
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
@@ -93,11 +94,10 @@ public class AuthService {
         }
         catch (JOSEException e)
         {
-            log.error("Cannot create token",e.getMessage());
+            log.error("Cannot create token: ",e.getMessage());
             throw new RuntimeException(e);
         }
 
     }
-
 
 }

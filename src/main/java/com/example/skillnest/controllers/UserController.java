@@ -4,16 +4,19 @@ import com.example.skillnest.dto.requests.CreateUserRequest;
 import com.example.skillnest.dto.requests.UpdateUserRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
 import com.example.skillnest.dto.responses.UserResponse;
-import com.example.skillnest.entities.User;
+import com.example.skillnest.entity.User;
 import com.example.skillnest.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -36,9 +39,19 @@ public class UserController {
     }
     @GetMapping("/{id}")
     ApiResponse<UserResponse> getUser(@PathVariable String id) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}", authentication.getName());
+        log.info("Roles: {}", authentication.getAuthorities());
         ApiResponse<UserResponse> response = new ApiResponse<>();
         response.setResult(userService.getUserById(id));
         return response;
+    }
+
+    @GetMapping("/my-info")
+    ApiResponse<UserResponse> getMyInfo() {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
     }
     @PutMapping("/{id}")
     ApiResponse<User> updateUser(@PathVariable String id, @RequestBody UpdateUserRequest request) {

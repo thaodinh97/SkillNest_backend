@@ -1,4 +1,4 @@
-package com.example.skillnest.entities;
+package com.example.skillnest.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,10 +22,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false)
+    @Column(name = "total_amount",nullable = false)
     private BigDecimal totalPrice;
 
-    @Column(nullable = false)
+    @Column(name = "payment_status",nullable = false)
     private String status; // PENDING, PAID, CANCELLED
 
     @Column(nullable = false)

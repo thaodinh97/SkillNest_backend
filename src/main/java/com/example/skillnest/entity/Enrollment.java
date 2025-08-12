@@ -1,4 +1,4 @@
-package com.example.skillnest.entities;
+package com.example.skillnest.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class Enrollment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "student_id")
     private User user;
 
     @ManyToOne

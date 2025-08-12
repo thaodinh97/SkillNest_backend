@@ -1,8 +1,8 @@
-package com.example.skillnest.entities;
+package com.example.skillnest.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,19 +11,23 @@ import java.util.UUID;
 @Table(name = "order_items")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+     UUID id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+     Order order;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    private Course course;
+     Course course;
 
     @Column(nullable = false)
-    private BigDecimal price;
+     BigDecimal price;
 }

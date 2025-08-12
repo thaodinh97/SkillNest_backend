@@ -1,4 +1,4 @@
-package com.example.skillnest.entities;
+package com.example.skillnest.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,5 +28,5 @@ public class Lesson {
     private CourseSection section;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
-    private Set<Lesson> lessons;
+    private Set<LessonProgress> progresses;
 }

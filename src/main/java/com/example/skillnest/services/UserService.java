@@ -3,7 +3,8 @@ package com.example.skillnest.services;
 import com.example.skillnest.dto.requests.CreateUserRequest;
 import com.example.skillnest.dto.requests.UpdateUserRequest;
 import com.example.skillnest.dto.responses.UserResponse;
-import com.example.skillnest.entities.User;
+import com.example.skillnest.entity.User;
+import com.example.skillnest.enums.Role;
 import com.example.skillnest.exception.AppException;
 import com.example.skillnest.exception.ErrorCode;
 import com.example.skillnest.mapper.UserMapper;
@@ -13,6 +14,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,21 +45,31 @@ public class UserService {
         User user = userMapper.toUser(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.student.name());
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
     }
 
-    @Transactional
+    @PreAuthorize("hasRole('admin')")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    @PostAuthorize("returnObject.email == authentication.name")
     @Transactional
     public UserResponse getUserById(String id) {
         UUID userId = UUID.fromString(id);
         return userMapper.toUserResponse(userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found")));
+    }
+
+    @Transactional
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String email = context.getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        return userMapper.toUserResponse(user);
     }
 
     @Transactional

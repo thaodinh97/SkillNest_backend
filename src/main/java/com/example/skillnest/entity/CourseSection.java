@@ -1,4 +1,4 @@
-package com.example.skillnest.entities;
+package com.example.skillnest.entity;
 
 
 import jakarta.persistence.*;
@@ -18,6 +18,9 @@ public class CourseSection {
 
     @Column(nullable = false)
     private String title;
+
+    @Column(name = "section_order")
+    private Integer order;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

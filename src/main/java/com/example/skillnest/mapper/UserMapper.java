@@ -3,7 +3,7 @@ package com.example.skillnest.mapper;
 import com.example.skillnest.dto.requests.CreateUserRequest;
 import com.example.skillnest.dto.requests.UpdateUserRequest;
 import com.example.skillnest.dto.responses.UserResponse;
-import com.example.skillnest.entities.User;
+import com.example.skillnest.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
