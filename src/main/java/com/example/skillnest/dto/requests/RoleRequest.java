@@ -1,19 +1,17 @@
 package com.example.skillnest.dto.requests;
 
-import com.example.skillnest.dto.responses.RoleResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateUserRequest {
-    String fullName;
-    String email;
-    String password;
-    List<String> roles;
+public class RoleRequest {
+    String name;
+    String description;
+    Set<String> permissions;
 }

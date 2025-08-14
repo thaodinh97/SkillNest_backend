@@ -1,11 +1,14 @@
 package com.example.skillnest.entity;
 
+import com.example.skillnest.validator.EmailConstraint;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,37 +23,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "UUID") // Added this for clarity and safety
-    private UUID id;
+    UUID id;
 
     @Column(name = "full_name")
-    private String fullName;
+    String fullName;
 
-    @Column(name = "email")
-    private String email;
+    String email;
 
-    @Column(name = "password")
-    private String password;
+    String password;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "date_of_birth")
+    LocalDate dob;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollments;
+    @ManyToMany
+    Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Order> orders;
+     List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+     List<Order> orders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+     List<Review> reviews;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+     LocalDateTime createdAt;
 
-
-    public User(String fullName, String email, String role, LocalDateTime createdAt) {
-        this.fullName = fullName;
-        this.email = email;
-        this.role = role;
-        this.createdAt = createdAt;
-    }
 }

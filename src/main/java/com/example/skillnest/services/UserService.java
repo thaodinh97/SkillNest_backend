@@ -8,6 +8,7 @@ import com.example.skillnest.enums.Role;
 import com.example.skillnest.exception.AppException;
 import com.example.skillnest.exception.ErrorCode;
 import com.example.skillnest.mapper.UserMapper;
+import com.example.skillnest.repositories.RoleRepository;
 import com.example.skillnest.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +35,8 @@ public class UserService {
 
     UserRepository userRepository;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
+    RoleRepository  roleRepository;
 
     @Transactional
     public User createRequest(CreateUserRequest request) {
@@ -45,13 +49,13 @@ public class UserService {
         User user = userMapper.toUser(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.student.name());
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
     }
 
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasAuthority('APPROVE_COURSE')")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -77,6 +81,9 @@ public class UserService {
         UUID userId = UUID.fromString(id);
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
         userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         return userRepository.save(user);
     }
 
