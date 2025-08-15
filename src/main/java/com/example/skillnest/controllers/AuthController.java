@@ -2,6 +2,8 @@ package com.example.skillnest.controllers;
 
 import com.example.skillnest.dto.requests.AuthRequest;
 import com.example.skillnest.dto.requests.IntrospectRequest;
+import com.example.skillnest.dto.requests.LogoutRequest;
+import com.example.skillnest.dto.requests.RefreshRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
 import com.example.skillnest.dto.responses.AuthResponse;
 import com.example.skillnest.dto.responses.IntrospectResponse;
@@ -39,8 +41,28 @@ public class AuthController {
     public ApiResponse<IntrospectResponse> login(@RequestBody IntrospectRequest request)
             throws JOSEException, ParseException {
         ApiResponse<IntrospectResponse> apiResponse = new ApiResponse<>();
-        var result = authService.verifyToken(request);
+        var result = authService.introspectToken(request);
         apiResponse.setResult(result);
         return apiResponse;
+    }
+
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+    throws JOSEException, ParseException {
+        authService.logout(request);
+        return ApiResponse.<Void>builder()
+                .code(1000)
+                .build();
+
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<AuthResponse> refresh(@RequestBody RefreshRequest request)
+            throws JOSEException, ParseException {
+        var result = authService.refreshToken(request);
+        return ApiResponse.<AuthResponse>builder()
+                .code(1000)
+                .result(result)
+                .build();
     }
 }

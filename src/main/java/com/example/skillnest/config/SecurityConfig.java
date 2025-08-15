@@ -1,6 +1,7 @@
 package com.example.skillnest.config;
 
 import com.example.skillnest.enums.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,11 +27,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/v1/user/",
-            "/api/v1/auth/login", "api/v1/auth/verify"
+            "/api/v1/auth/login", "/api/v1/auth/verify", "/api/v1/auth/logout", "/api/v1/auth/refresh"
     };
 
-    @Value("${jwt.secret}")
-    protected String JWT_SECRET;
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(requests ->
@@ -38,7 +40,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
@@ -54,14 +56,6 @@ public class SecurityConfig {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(JWT_SECRET.getBytes(), "HS512");
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
     }
 
     @Bean
