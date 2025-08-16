@@ -1,10 +1,9 @@
 package com.example.skillnest.dto.requests;
 
-import com.example.skillnest.dto.responses.RoleResponse;
+import java.util.List;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

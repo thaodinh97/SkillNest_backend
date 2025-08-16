@@ -1,8 +1,8 @@
 package com.example.skillnest.config;
 
-import com.example.skillnest.dto.requests.IntrospectRequest;
-import com.example.skillnest.services.AuthService;
-import com.nimbusds.jose.JOSEException;
+import java.util.Objects;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -12,9 +12,8 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.text.ParseException;
-import java.util.Objects;
+import com.example.skillnest.dto.requests.IntrospectRequest;
+import com.example.skillnest.services.AuthService;
 
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
@@ -29,20 +28,17 @@ public class CustomJwtDecoder implements JwtDecoder {
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-            var response = authService.introspectToken(IntrospectRequest.builder()
-                    .token(token)
-                    .build());
+            var response = authService.introspectToken(
+                    IntrospectRequest.builder().token(token).build());
 
-            if(!response.isValid())
-            {
+            if (!response.isValid()) {
                 throw new JwtException("Invalid token");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new JwtException(e.getMessage());
         }
 
-        if(Objects.isNull(jwtDecoder)){
+        if (Objects.isNull(jwtDecoder)) {
             SecretKeySpec secretKeySpec = new SecretKeySpec(JWT_SECRET.getBytes(), "HS512");
             jwtDecoder = NimbusJwtDecoder.withSecretKey(secretKeySpec)
                     .macAlgorithm(MacAlgorithm.HS512)

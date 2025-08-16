@@ -1,11 +1,12 @@
 package com.example.skillnest.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "order_items")
@@ -18,16 +19,16 @@ import java.util.UUID;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-     UUID id;
+    UUID id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-     Order order;
+    Order order;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-     Course course;
+    Course course;
 
     @Column(nullable = false)
-     BigDecimal price;
+    BigDecimal price;
 }

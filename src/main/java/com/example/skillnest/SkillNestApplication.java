@@ -9,5 +9,4 @@ public class SkillNestApplication {
     public static void main(String[] args) {
         SpringApplication.run(SkillNestApplication.class, args);
     }
-
 }

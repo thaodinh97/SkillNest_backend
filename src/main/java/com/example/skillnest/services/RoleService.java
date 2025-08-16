@@ -1,18 +1,19 @@
 package com.example.skillnest.services;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.example.skillnest.dto.requests.RoleRequest;
 import com.example.skillnest.dto.responses.RoleResponse;
 import com.example.skillnest.mapper.RoleMapper;
 import com.example.skillnest.repositories.PermissionRepository;
 import com.example.skillnest.repositories.RoleRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +34,10 @@ public class RoleService {
     }
 
     public List<RoleResponse> getAll() {
-        return  roleRepository.findAll()
-                .stream()
-                .map(roleMapper::toResponse)
-                .toList();
+        return roleRepository.findAll().stream().map(roleMapper::toResponse).toList();
     }
 
-    public void delete(String role)
-    {
+    public void delete(String role) {
         roleRepository.deleteById(role);
     }
 }

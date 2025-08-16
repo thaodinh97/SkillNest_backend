@@ -1,21 +1,23 @@
 package com.example.skillnest.controllers;
 
+import java.util.List;
+import java.util.UUID;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.example.skillnest.dto.requests.CreateCourseRequest;
 import com.example.skillnest.dto.requests.UpdateCourseRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
 import com.example.skillnest.dto.responses.CourseResponse;
 import com.example.skillnest.dto.responses.DeleteCourseResponse;
 import com.example.skillnest.entity.Course;
-import com.example.skillnest.entity.CourseSection;
 import com.example.skillnest.services.CourseService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/course")
@@ -25,10 +27,11 @@ public class CourseController {
     CourseService courseService;
 
     @PostMapping("/")
-    public ApiResponse<Course> createCourse(@RequestBody CreateCourseRequest request, HttpServletRequest httpServletRequest) {
+    public ApiResponse<Course> createCourse(
+            @RequestBody CreateCourseRequest request, HttpServletRequest httpServletRequest) {
         UUID instructorId = UUID.fromString((String) httpServletRequest.getAttribute("userId"));
         ApiResponse<Course> response = new ApiResponse<>();
-        response.setResult(courseService.createCourse(request,instructorId));
+        response.setResult(courseService.createCourse(request, instructorId));
         return response;
     }
 
@@ -47,14 +50,16 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<CourseResponse> updateCourse(@PathVariable String id, @RequestBody UpdateCourseRequest request, HttpServletRequest httpServletRequest) {
+    public ApiResponse<CourseResponse> updateCourse(
+            @PathVariable String id, @RequestBody UpdateCourseRequest request, HttpServletRequest httpServletRequest) {
         ApiResponse<CourseResponse> response = new ApiResponse<>();
         response.setResult(courseService.updateCourseById(id, request));
         return response;
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<DeleteCourseResponse> deleteCourse(@PathVariable String id, HttpServletRequest httpServletRequest) {
+    public ApiResponse<DeleteCourseResponse> deleteCourse(
+            @PathVariable String id, HttpServletRequest httpServletRequest) {
         ApiResponse<DeleteCourseResponse> response = new ApiResponse<>();
         response.setResult(courseService.deleteCourseById(id));
         return response;

@@ -1,5 +1,13 @@
 package com.example.skillnest.services;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import jakarta.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.example.skillnest.dto.requests.CreateCourseRequest;
 import com.example.skillnest.dto.requests.UpdateCourseRequest;
 import com.example.skillnest.dto.responses.CourseResponse;
@@ -12,17 +20,10 @@ import com.example.skillnest.mapper.CourseMapper;
 import com.example.skillnest.repositories.CourseRepository;
 import com.example.skillnest.repositories.UserRepository;
 import com.example.skillnest.utils.JwtUtil;
-import jakarta.transaction.Transactional;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
 @RequiredArgsConstructor
@@ -47,15 +48,15 @@ public class CourseService {
 
     @Transactional
     public List<CourseResponse> getAllCourses() {
-        return courseRepository.findAll()
-                .stream()
+        return courseRepository.findAll().stream()
                 .map(CourseMapper::toCourseResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public CourseResponse getCourseById(UUID id) {
-        return courseRepository.findById(id)
+        return courseRepository
+                .findById(id)
                 .map(CourseMapper::toCourseResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
     }
@@ -63,15 +64,15 @@ public class CourseService {
     @Transactional
     public CourseResponse updateCourseById(String id, UpdateCourseRequest request) {
         UUID courseId = UUID.fromString(id);
-        var course  = courseRepository.findById(courseId)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        var course =
+                courseRepository.findById(courseId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        courseMapper.toUpdateCourse(request,course);
+        courseMapper.toUpdateCourse(request, course);
         courseRepository.save(course);
-        return courseRepository.findById(courseId)
-                .stream()
+        return courseRepository.findById(courseId).stream()
                 .map(CourseMapper::toCourseResponse)
-                .collect(Collectors.toList()).getFirst();
+                .collect(Collectors.toList())
+                .getFirst();
     }
 
     @Transactional

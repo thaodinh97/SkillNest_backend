@@ -1,11 +1,12 @@
 package com.example.skillnest.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Set;
 import java.util.UUID;
+
+import jakarta.persistence.*;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "lessons")

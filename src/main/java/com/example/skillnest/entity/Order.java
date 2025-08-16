@@ -1,13 +1,14 @@
 package com.example.skillnest.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.persistence.*;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
@@ -22,10 +23,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "total_amount",nullable = false)
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalPrice;
 
-    @Column(name = "payment_status",nullable = false)
+    @Column(name = "payment_status", nullable = false)
     private String status; // PENDING, PAID, CANCELLED
 
     @Column(nullable = false)

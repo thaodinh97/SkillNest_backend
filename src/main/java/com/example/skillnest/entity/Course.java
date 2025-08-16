@@ -1,12 +1,13 @@
 package com.example.skillnest.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "courses")
@@ -39,7 +40,7 @@ public class Course {
     User instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    List<CourseSection>  sections;
+    List<CourseSection> sections;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     List<Enrollment> enrollments;
