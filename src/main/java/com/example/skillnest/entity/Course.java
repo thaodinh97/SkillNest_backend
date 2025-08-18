@@ -32,7 +32,7 @@ public class Course {
 
     @Setter
     @Column(nullable = false)
-    BigDecimal price;
+    Double price;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,4 +47,6 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Review> reviews;
+
+
 }

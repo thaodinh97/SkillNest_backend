@@ -40,4 +40,5 @@ public class RoleService {
     public void delete(String role) {
         roleRepository.deleteById(role);
     }
+
 }

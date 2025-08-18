@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.skillnest.dto.requests.CreateCourseRequest;
@@ -25,6 +27,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -35,14 +38,17 @@ public class CourseService {
     UserRepository userRepository;
     CourseMapper courseMapper;
 
+    @PreAuthorize("hasAuthority('CREATE_COURSE')")
     @Transactional
-    public Course createCourse(CreateCourseRequest request, UUID userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if (user == null) {
+    public Course createCourse(CreateCourseRequest request) {
+
+        User instructor = userRepository.findById(UUID.fromString(request.getInstructorId()))
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if (instructor == null) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
         Course course = courseMapper.toCourse(request);
-        course.setInstructor(user);
+        course.setInstructor(instructor);
         return courseRepository.save(course);
     }
 
@@ -61,17 +67,21 @@ public class CourseService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Transactional
     public CourseResponse updateCourseById(String id, UpdateCourseRequest request) {
+        log.info("Request to update course: {}", request);
         UUID courseId = UUID.fromString(id);
         var course =
                 courseRepository.findById(courseId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-
         courseMapper.toUpdateCourse(request, course);
+        User instructor = userRepository.findById(UUID.fromString(request.getInstructorId()))
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        course.setInstructor(instructor);
         courseRepository.save(course);
         return courseRepository.findById(courseId).stream()
                 .map(CourseMapper::toCourseResponse)
-                .collect(Collectors.toList())
+                .toList()
                 .getFirst();
     }
 

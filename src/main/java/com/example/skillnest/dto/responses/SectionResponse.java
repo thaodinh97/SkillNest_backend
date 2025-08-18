@@ -1,21 +1,18 @@
 package com.example.skillnest.dto.responses;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CourseResponse {
+public class SectionResponse {
     UUID id;
     String title;
-    String description;
-    Double price;
-    UUID instructorId;
-    String instructorName;
+    Integer order;
+    CourseResponse course;
 }

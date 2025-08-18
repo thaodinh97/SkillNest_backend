@@ -16,6 +16,7 @@ public interface CourseMapper {
         CourseResponse courseResponse = CourseResponse.builder()
                 .id(course.getId())
                 .title(course.getTitle())
+                .price(course.getPrice())
                 .description(course.getDescription())
                 .instructorId(course.getInstructor().getId())
                 .instructorName(course.getInstructor().getFullName())

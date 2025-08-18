@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.skillnest.dto.requests.CreateCourseRequest;
@@ -28,10 +29,9 @@ public class CourseController {
 
     @PostMapping("/")
     public ApiResponse<Course> createCourse(
-            @RequestBody CreateCourseRequest request, HttpServletRequest httpServletRequest) {
-        UUID instructorId = UUID.fromString((String) httpServletRequest.getAttribute("userId"));
+            @RequestBody CreateCourseRequest request) {
         ApiResponse<Course> response = new ApiResponse<>();
-        response.setResult(courseService.createCourse(request, instructorId));
+        response.setResult(courseService.createCourse(request));
         return response;
     }
 

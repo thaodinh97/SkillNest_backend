@@ -14,6 +14,6 @@ import lombok.experimental.FieldDefaults;
 public class UpdateCourseRequest {
     String title;
     String description;
-    BigDecimal price;
-    UUID instructorId;
+    Double price;
+    String instructorId;
 }
