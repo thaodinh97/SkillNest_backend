@@ -1,6 +1,5 @@
 package com.example.skillnest.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +39,7 @@ public class Course {
     User instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    List<CourseSection> sections;
+    List<Section> sections;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     List<Enrollment> enrollments;

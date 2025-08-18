@@ -4,7 +4,7 @@ import com.example.skillnest.dto.requests.SectionRequest;
 import com.example.skillnest.dto.requests.UpdateSectionRequest;
 import com.example.skillnest.dto.responses.SectionResponse;
 import com.example.skillnest.entity.Course;
-import com.example.skillnest.entity.CourseSection;
+import com.example.skillnest.entity.Section;
 import com.example.skillnest.exception.AppException;
 import com.example.skillnest.exception.ErrorCode;
 import com.example.skillnest.mapper.SectionMapper;
@@ -32,7 +32,7 @@ public class SectionService {
         Course course = courseRepository.findById(UUID.fromString(request.getCourseId()))
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        CourseSection courseSection = sectionMapper.toCourseSection(request);
+        Section courseSection = sectionMapper.toCourseSection(request);
         courseSection.setCourse(course);
         sectionRepository.save(courseSection);
 
@@ -55,7 +55,7 @@ public class SectionService {
 
     public SectionResponse updateSection(String sectionId, UpdateSectionRequest request) {
         UUID id = UUID.fromString(sectionId);
-        CourseSection section = sectionRepository.findById(id)
+        Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         sectionMapper.updateSection(request, section);
         sectionRepository.save(section);
@@ -63,7 +63,7 @@ public class SectionService {
     }
 
     public void delteSection(String sectionId) {
-        CourseSection section = sectionRepository.findById(UUID.fromString(sectionId))
+        Section section = sectionRepository.findById(UUID.fromString(sectionId))
                         .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         sectionRepository.deleteById(UUID.fromString(sectionId));
     }

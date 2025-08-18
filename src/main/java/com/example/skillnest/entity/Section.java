@@ -11,7 +11,7 @@ import lombok.Setter;
 @Table(name = "course_sections")
 @Getter
 @Setter
-public class CourseSection {
+public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

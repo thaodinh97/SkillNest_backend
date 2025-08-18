@@ -26,7 +26,7 @@ public class Lesson {
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    private CourseSection section;
+    private Section section;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private Set<LessonProgress> progresses;
