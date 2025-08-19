@@ -1,19 +1,15 @@
-package com.example.skillnest.dto.responses;
+package com.example.skillnest.dto.requests;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SectionResponse {
-    UUID id;
+public class LessonRequest {
     String title;
-    Integer order;
-    UUID courseId;
-    String courseTitle;
+    String content;
+    String sectionId;
 }

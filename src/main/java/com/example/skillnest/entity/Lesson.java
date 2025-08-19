@@ -26,6 +26,7 @@ public class Lesson {
 
     @ManyToOne
     @JoinColumn(name = "section_id")
+    @Setter
     private Section section;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)

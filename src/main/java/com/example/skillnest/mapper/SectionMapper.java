@@ -5,12 +5,16 @@ import com.example.skillnest.dto.requests.UpdateSectionRequest;
 import com.example.skillnest.dto.responses.SectionResponse;
 import com.example.skillnest.entity.Section;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface SectionMapper {
     Section toCourseSection(SectionRequest request);
-    SectionResponse toSectionResponse(Section courseSection);
+
+    @Mapping(source = "course.id", target = "courseId")
+    @Mapping(source = "course.title", target = "courseTitle")
+    SectionResponse toSectionResponse(Section section);
 
     void updateSection(UpdateSectionRequest sectionRequest, @MappingTarget Section section);
 }
