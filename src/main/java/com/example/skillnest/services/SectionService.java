@@ -32,11 +32,11 @@ public class SectionService {
         Course course = courseRepository.findById(UUID.fromString(request.getCourseId()))
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        Section courseSection = sectionMapper.toCourseSection(request);
-        courseSection.setCourse(course);
-        sectionRepository.save(courseSection);
+        Section section = sectionMapper.toCourseSection(request);
+        section.setCourse(course);
+        Section savedSection = sectionRepository.save(section);
 
-        return sectionMapper.toSectionResponse(courseSection);
+        return sectionMapper.toSectionResponse(savedSection);
     }
 
     public List<SectionResponse> getAllSections() {
@@ -58,13 +58,14 @@ public class SectionService {
         Section section = sectionRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         sectionMapper.updateSection(request, section);
-        sectionRepository.save(section);
-        return sectionMapper.toSectionResponse(section);
+        Section savedSection = sectionRepository.save(section);
+        return sectionMapper.toSectionResponse(savedSection);
     }
 
-    public void delteSection(String sectionId) {
-        Section section = sectionRepository.findById(UUID.fromString(sectionId))
-                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+    public void deleteSection(String sectionId) {
+        if(sectionRepository.existsById(UUID.fromString(sectionId))){
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
         sectionRepository.deleteById(UUID.fromString(sectionId));
     }
 

@@ -65,12 +65,14 @@ public class SectionControllerTest {
                 .id(UUID.fromString("21773b08-009d-46c7-9dd4-89d6bebfeb4c"))
                 .title("Test Title")
                 .order(1)
-                .course(courseResponse)
+                .courseId(UUID.fromString("828a8905-0f9c-46e3-b2e7-e199cae94bdb"))
+                .courseTitle("Course 2 updated")
                 .build();
         updatedResponse = SectionResponse.builder()
                 .title("Test Title updated")
                 .order(2)
-                .course(courseResponse)
+                .courseId(UUID.fromString("828a8905-0f9c-46e3-b2e7-e199cae94bdb"))
+                .courseTitle("Course 2 updated")
                 .build();
     }
 
@@ -108,6 +110,4 @@ public class SectionControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("result.course.id").value("828a8905-0f9c-46e3-b2e7-e199cae94bdb"))
                 .andExpect(MockMvcResultMatchers.jsonPath("result.course.title").value("Course 2 updated"));
     }
-
-
 }

@@ -60,7 +60,7 @@ public class SectionController {
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteSection(@PathVariable String id)
     {
-        sectionService.delteSection(id);
+        sectionService.deleteSection(id);
         return ApiResponse.<Void>builder()
                 .code(1000)
                 .message("Section with id " + id + " was deleted")
