@@ -39,6 +39,6 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t thaodinh426/skillnest-be:v1 .
+          docker build -f Dockerfile -t thaodinh426/skillnest-be:v1 .
           docker push thaodinh426/skillnest-be:v1
 
