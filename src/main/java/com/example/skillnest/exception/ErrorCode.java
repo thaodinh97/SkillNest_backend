@@ -16,7 +16,7 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(1007, "Product not found!", HttpStatus.NOT_FOUND),
     //    UNCATEGORIZED_EXCEPTION(1008, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_EMAIL(1009, "Please provide a valid email address!", HttpStatus.BAD_REQUEST),
-    INVALID_DOB(1010, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    INVALID_DOB(1011, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
