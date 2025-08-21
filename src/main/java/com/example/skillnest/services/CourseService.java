@@ -40,7 +40,7 @@ public class CourseService {
 
     @PreAuthorize("hasAuthority('CREATE_COURSE')")
     @Transactional
-    public Course createCourse(CreateCourseRequest request) {
+    public CourseResponse createCourse(CreateCourseRequest request) {
 
         User instructor = userRepository.findById(UUID.fromString(request.getInstructorId()))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -49,13 +49,14 @@ public class CourseService {
         }
         Course course = courseMapper.toCourse(request);
         course.setInstructor(instructor);
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+        return courseMapper.toCourseResponse(savedCourse);
     }
 
     @Transactional
     public List<CourseResponse> getAllCourses() {
         return courseRepository.findAll().stream()
-                .map(CourseMapper::toCourseResponse)
+                .map(courseMapper::toCourseResponse)
                 .collect(Collectors.toList());
     }
 
@@ -63,7 +64,7 @@ public class CourseService {
     public CourseResponse getCourseById(UUID id) {
         return courseRepository
                 .findById(id)
-                .map(CourseMapper::toCourseResponse)
+                .map(courseMapper::toCourseResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 
@@ -80,7 +81,7 @@ public class CourseService {
         course.setInstructor(instructor);
         courseRepository.save(course);
         return courseRepository.findById(courseId).stream()
-                .map(CourseMapper::toCourseResponse)
+                .map(courseMapper::toCourseResponse)
                 .toList()
                 .getFirst();
     }
