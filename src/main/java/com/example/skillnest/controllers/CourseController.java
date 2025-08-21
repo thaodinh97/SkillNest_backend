@@ -28,9 +28,9 @@ public class CourseController {
     CourseService courseService;
 
     @PostMapping("/")
-    public ApiResponse<Course> createCourse(
+    public ApiResponse<CourseResponse> createCourse(
             @RequestBody CreateCourseRequest request) {
-        ApiResponse<Course> response = new ApiResponse<>();
+        ApiResponse<CourseResponse> response = new ApiResponse<>();
         response.setResult(courseService.createCourse(request));
         return response;
     }

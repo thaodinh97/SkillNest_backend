@@ -25,7 +25,7 @@ public class CreateUserRequest {
     @Size(min = 4, max = 50, message = "PASSWORD_INVALID")
     String password;
 
-    @DobConstraint(min = 18, message = "INVALID_DOB")
+    @DobConstraint(min = 15, message = "INVALID_DOB")
     @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate dob;
 }
