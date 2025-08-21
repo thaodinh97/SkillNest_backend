@@ -4,12 +4,10 @@ import com.example.skillnest.dto.requests.SectionRequest;
 import com.example.skillnest.dto.requests.UpdateSectionRequest;
 import com.example.skillnest.dto.responses.CourseResponse;
 import com.example.skillnest.dto.responses.SectionResponse;
-import com.example.skillnest.entity.Course;
 import com.example.skillnest.services.SectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +87,7 @@ public class SectionControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value(1000))
                 .andExpect(MockMvcResultMatchers.jsonPath("result.title").value("Test Title"))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.course.id").value("828a8905-0f9c-46e3-b2e7-e199cae94bdb"));
+                .andExpect(MockMvcResultMatchers.jsonPath("result.courseId").value("828a8905-0f9c-46e3-b2e7-e199cae94bdb"));
     }
 
     @Test
@@ -107,7 +105,7 @@ public class SectionControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("code").value(1000))
         .andExpect(MockMvcResultMatchers.jsonPath("result.title").value("Test Title updated"))
                 .andExpect(MockMvcResultMatchers.jsonPath("result.order").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.course.id").value("828a8905-0f9c-46e3-b2e7-e199cae94bdb"))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.course.title").value("Course 2 updated"));
+                .andExpect(MockMvcResultMatchers.jsonPath("result.courseId").value("828a8905-0f9c-46e3-b2e7-e199cae94bdb"))
+                .andExpect(MockMvcResultMatchers.jsonPath("result.courseTitle").value("Course 2 updated"));
     }
 }
