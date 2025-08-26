@@ -43,6 +43,14 @@ public class UserController {
         return response;
     }
 
+    @GetMapping("/instructors")
+    ApiResponse<List<UserResponse>> getInstructors() {
+        return ApiResponse.<List<UserResponse>>builder()
+                .code(1000)
+                .result(userService.getAllInstructors())
+                .build();
+    }
+
     @GetMapping("/{id}")
     ApiResponse<UserResponse> getUser(@PathVariable String id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
