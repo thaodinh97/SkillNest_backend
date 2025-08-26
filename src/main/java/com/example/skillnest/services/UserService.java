@@ -73,6 +73,13 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found")));
     }
 
+    public List<UserResponse> getAllInstructors() {
+        return userRepository.findUsersByRoleName("instructor")
+                .stream()
+                .map(userMapper::toUserResponse)
+                .toList();
+    }
+
     @Transactional
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
