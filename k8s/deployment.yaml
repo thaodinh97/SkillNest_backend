@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skill-nest-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: skill-nest-app
+  template:
+    metadata:
+      labels:
+        app: skill-nest-app
+    spec:
+      containers:
+        - name: skill-nest-app
+          image: asia-northeast2-a-docker.pkg.dev/geometric-hull-473810-v0/skill-nest-app/skill-nest-backend:v1
+          ports:
+            - containerPort: 8080
