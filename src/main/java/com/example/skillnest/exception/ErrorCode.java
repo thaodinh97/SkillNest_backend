@@ -14,9 +14,11 @@ public enum ErrorCode {
     UNAUTHENTICATED_EXCEPTION(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED_EXCEPTION(1006, "You do not have permission!", HttpStatus.FORBIDDEN),
     PRODUCT_NOT_FOUND(1007, "Product not found!", HttpStatus.NOT_FOUND),
+    PRODUCT_ALREADY_EXISTS(1008, "Product already exists!", HttpStatus.CONFLICT),
     //    UNCATEGORIZED_EXCEPTION(1008, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_EMAIL(1009, "Please provide a valid email address!", HttpStatus.BAD_REQUEST),
     INVALID_DOB(1011, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+
     ;
 
     private int code;

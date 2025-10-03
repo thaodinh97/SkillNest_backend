@@ -16,6 +16,7 @@ public class CourseResponse {
     String title;
     String description;
     Double price;
+    Boolean isPublished;
     UUID instructorId;
     String instructorName;
 }

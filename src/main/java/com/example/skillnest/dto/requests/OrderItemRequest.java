@@ -1,8 +1,5 @@
 package com.example.skillnest.dto.requests;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,10 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateCourseRequest {
-    String title;
-    String description;
-    Double price;
-    Boolean isPublished;
-    String instructorId;
+public class OrderItemRequest {
+    private String courseId;
+    private Double price;
 }

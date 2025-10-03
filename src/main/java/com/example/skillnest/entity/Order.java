@@ -24,7 +24,7 @@ public class Order {
     private User user;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalPrice;
+    private Double totalPrice;
 
     @Column(name = "payment_status", nullable = false)
     private String status; // PENDING, PAID, CANCELLED

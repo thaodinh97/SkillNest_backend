@@ -1,20 +1,16 @@
 package com.example.skillnest.dto.requests;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
+import com.example.skillnest.entity.OrderItem;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateCourseRequest {
-    String title;
-    String description;
-    Double price;
-    Boolean isPublished;
-    String instructorId;
+public class OrderRequest {
+    List<OrderItem> orderItems;
 }

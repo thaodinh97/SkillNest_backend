@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public ApiResponse<IntrospectResponse> login(@RequestBody IntrospectRequest request)
+    public ApiResponse<IntrospectResponse> verify(@RequestBody IntrospectRequest request)
             throws JOSEException, ParseException {
         ApiResponse<IntrospectResponse> apiResponse = new ApiResponse<>();
         var result = authService.introspectToken(request);
