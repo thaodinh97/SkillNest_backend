@@ -89,6 +89,7 @@ public class UserServiceTest {
     @Test
     @WithMockUser(username = "78312e60-0fab-4b35-9a5a-8260503f0ee0")
     void getMyInfo_validRequest_success() {
+        // cần sửa
         Mockito.when(userRepository.findById(UUID.fromString("78312e60-0fab-4b35-9a5a-8260503f0ee0"))).thenReturn(Optional.of(user));
         var response = userService.getMyInfo();
 
@@ -97,9 +98,10 @@ public class UserServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "test@gmail.com")
+    @WithMockUser(username = "78312e60-0fab-4b35-9a5a-8260503f0ee0")
     void getMyInfo_userNotFound_error() {
-        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.ofNullable(null));
+        // cần sửa
+        Mockito.when(userRepository.findById(UUID.fromString("78312e60-0fab-4b35-9a5a-8260503f0ee0"))).thenReturn(Optional.ofNullable(null));
 
         var exception = assertThrows(AppException.class, () -> userService.getMyInfo());
 
