@@ -73,8 +73,8 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found")));
     }
 
-    public List<UserResponse> getAllInstructors() {
-        return userRepository.findUsersByRoleName("instructor")
+    public List<UserResponse> getUserByRoleName(String roleName) {
+        return userRepository.findUsersByRoleName(roleName)
                 .stream()
                 .map(userMapper::toUserResponse)
                 .toList();
@@ -83,8 +83,8 @@ public class UserService {
     @Transactional
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
-        String email = context.getAuthentication().getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        String userId = context.getAuthentication().getName();
+        User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         return userMapper.toUserResponse(user);
     }
 
@@ -95,9 +95,9 @@ public class UserService {
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
         userMapper.updateUser(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
         var roles = roleRepository.findAllById(request.getRoles());
         user.setRoles(new HashSet<>(roles));
+        user.setDob(request.getDob());
         return userRepository.save(user);
     }
 

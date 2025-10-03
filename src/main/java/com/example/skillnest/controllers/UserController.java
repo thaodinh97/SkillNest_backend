@@ -43,11 +43,11 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("/instructors")
-    ApiResponse<List<UserResponse>> getInstructors() {
+    @GetMapping("/role/{roleName}")
+    ApiResponse<List<UserResponse>> getUserByRoleName(@PathVariable String roleName) {
         return ApiResponse.<List<UserResponse>>builder()
                 .code(1000)
-                .result(userService.getAllInstructors())
+                .result(userService.getUserByRoleName(roleName))
                 .build();
     }
 

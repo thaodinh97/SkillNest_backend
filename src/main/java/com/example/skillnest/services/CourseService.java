@@ -79,6 +79,7 @@ public class CourseService {
         User instructor = userRepository.findById(UUID.fromString(request.getInstructorId()))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         course.setInstructor(instructor);
+        course.setIsPublished(request.getIsPublished());
         courseRepository.save(course);
         return courseRepository.findById(courseId).stream()
                 .map(courseMapper::toCourseResponse)

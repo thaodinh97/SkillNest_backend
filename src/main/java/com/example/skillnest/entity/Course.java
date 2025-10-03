@@ -34,6 +34,10 @@ public class Course {
     Double price;
 
     @Setter
+    @Column(columnDefinition = "is_published")
+    Boolean isPublished;
+
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", nullable = false)
     User instructor;

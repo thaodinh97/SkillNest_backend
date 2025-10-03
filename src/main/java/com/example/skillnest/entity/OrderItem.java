@@ -30,5 +30,5 @@ public class OrderItem {
     Course course;
 
     @Column(nullable = false)
-    BigDecimal price;
+    Double price;
 }
