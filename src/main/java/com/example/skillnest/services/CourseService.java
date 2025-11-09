@@ -49,6 +49,7 @@ public class CourseService {
         }
         Course course = courseMapper.toCourse(request);
         course.setInstructor(instructor);
+        course.setIsPublished(false);
         Course savedCourse = courseRepository.save(course);
         return courseMapper.toCourseResponse(savedCourse);
     }

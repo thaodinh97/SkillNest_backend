@@ -59,7 +59,7 @@ public class UserService {
     }
 
     //    @PreAuthorize("hasRole('admin')")
-    @PreAuthorize("hasAuthority('APPROVE_COURSE')")
+//    @PreAuthorize("hasAuthority('APPROVE_COURSE')")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

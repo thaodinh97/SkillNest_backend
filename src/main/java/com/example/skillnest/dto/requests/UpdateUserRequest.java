@@ -17,5 +17,6 @@ public class UpdateUserRequest {
     String email;
     @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate dob;
+    String phoneNumber;
     List<String> roles;
 }

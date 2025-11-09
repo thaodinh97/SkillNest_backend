@@ -26,7 +26,7 @@ public class User {
             name = "id",
             updatable = false,
             nullable = false,
-            columnDefinition = "UUID") // Added this for clarity and safety
+            columnDefinition = "UUID")
     UUID id;
 
     @Column(name = "full_name")
@@ -39,7 +39,15 @@ public class User {
     @Column(name = "date_of_birth")
     LocalDate dob;
 
+    @Column(name = "phone_number")
+    String phoneNumber;
+
     @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_name")
+    )
     Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

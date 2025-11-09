@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -32,6 +34,8 @@ public class ApplicationInitConfig {
             if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
                 User user = User.builder()
                         .email("admin@gmail.com")
+                        .dob(LocalDate.now())
+                        .fullName("Admin")
                         .password(passwordEncoder.encode("admin"))
                         .build();
                 userRepository.save(user);

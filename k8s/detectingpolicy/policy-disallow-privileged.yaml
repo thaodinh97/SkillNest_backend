@@ -1,0 +1,30 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-privileged-containers
+  annotations:
+    policies.kyverno.io/title: Disallow Privileged Containers
+    policies.kyverno.io/description: >-
+      Container chạy ở chế độ privileged (privileged: true) có thể
+      vượt rào (escape) và chiếm quyền host. Policy này cấm điều đó.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-privileged
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+                - Deployment
+                - StatefulSet
+                - Job
+                - CronJob
+      validate:
+        message: "Container chạy ở chế độ privileged (securityContext.privileged: true) bị cấm."
+        pattern:
+          spec:
+            =(containers):
+              securityContext:
+                privileged: "!true"
