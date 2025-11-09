@@ -171,6 +171,7 @@ public class AuthService {
 
         if (!CollectionUtils.isEmpty(user.getRoles())) {
             user.getRoles().forEach(role -> {
+                log.info("Role: {}", role.getName());
                 stringJoiner.add("ROLE_" + role.getName());
                 if (!CollectionUtils.isEmpty(role.getPermissions())) {
                     role.getPermissions().forEach(permission -> {

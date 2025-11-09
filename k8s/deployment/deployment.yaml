@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skill-nest-backend-deployment
+  namespace: skill-nest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skill-nest-backend
+  template:
+    metadata:
+      labels:
+        app: skill-nest-backend
+    spec:
+      serviceAccountName: skill-nest-sa
+      containers:
+        - name: skill-nest-backend
+          image: asia-east1-docker.pkg.dev/geometric-hull-473810-v0/skill-nest/skillnest-backend:v1
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              value: "127.0.0.1"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "skillnest"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-db-secret
+                  key: password
+        - name: cloud-sql-proxy
+          image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.18.2"
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "--private-ip"
+            - "geometric-hull-473810-v0:asia-southeast1:skillnest-db-secure"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"

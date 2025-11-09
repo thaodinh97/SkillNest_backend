@@ -1,0 +1,39 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: default-deny-all-networkpolicy
+  annotations:
+    policies.kyverno.io/title: Generate Default Deny NetworkPolicy
+    policies.kyverno.io/description: >-
+      Tự động tạo một NetworkPolicy 'default-deny-all' cho các namespace mới
+      để thực thi Zero-Trust. Bỏ qua các namespace hệ thống.
+spec:
+  background: true
+  rules:
+    - name: generate-default-deny-ingress-egress
+      match:
+        any:
+          - resources:
+              kinds:
+                - Namespace
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kube-public
+                - kube-node-lease
+                - kyverno
+                - gke-system
+                - default
+      generate:
+        apiVersion: networking.k8s.io/v1
+        kind: NetworkPolicy
+        name: default-deny-all
+        namespace: "{{request.object.metadata.name}}"
+        data:
+          spec:
+            podSelector: {}
+            policyTypes:
+              - Ingress
+              - Egress
