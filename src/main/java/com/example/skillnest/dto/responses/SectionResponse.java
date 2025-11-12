@@ -3,6 +3,7 @@ package com.example.skillnest.dto.responses;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,4 +17,5 @@ public class SectionResponse {
     Integer order;
     UUID courseId;
     String courseTitle;
+    List<LessonResponse> lessons;
 }

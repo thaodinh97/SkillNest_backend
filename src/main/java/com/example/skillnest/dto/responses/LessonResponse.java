@@ -14,6 +14,8 @@ import java.util.UUID;
 public class LessonResponse {
     UUID id;
     String title;
+    Integer order;
+    String videoUrl;
     String content;
     UUID sectionId;
     String sectionTitle;

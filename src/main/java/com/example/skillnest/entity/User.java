@@ -32,6 +32,9 @@ public class User {
     @Column(name = "full_name")
     String fullName;
 
+    @Column(name = "avatar_url")
+    String avatarUrl;
+    
     String email;
 
     String password;

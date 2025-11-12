@@ -1,11 +1,14 @@
 package com.example.skillnest.entity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import java.util.List;
 
 @Entity
 @Table(name = "course_sections")
@@ -29,4 +32,8 @@ public class Section {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Lesson> lessons = new ArrayList<>();
 }
