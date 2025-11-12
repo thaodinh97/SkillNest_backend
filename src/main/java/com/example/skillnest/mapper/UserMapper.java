@@ -1,8 +1,6 @@
 package com.example.skillnest.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import com.example.skillnest.dto.requests.CreateUserRequest;
 import com.example.skillnest.dto.requests.UpdateUserRequest;
@@ -16,6 +14,7 @@ public interface UserMapper {
 
     UserResponse toUserResponse(User user);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UpdateUserRequest request);
 }

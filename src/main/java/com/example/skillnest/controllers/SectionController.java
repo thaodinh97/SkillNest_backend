@@ -31,11 +31,19 @@ public class SectionController {
     }
 
     @GetMapping
-    public ApiResponse<List<SectionResponse>> getAllSections()
+    public ApiResponse<List<SectionResponse>> getAllSectionsByCourseId(@RequestParam(required = false) String courseId)
     {
+        List<SectionResponse> result = null;
+        if (courseId == null)
+        {
+            result = sectionService.getAllSections();
+        }
+        else {
+            result = sectionService.getSectionsByCourseId(courseId);
+        }
         return ApiResponse.<List<SectionResponse>>builder()
                 .code(1000)
-                .result(sectionService.getAllSections())
+                .result(result)
                 .build();
     }
 

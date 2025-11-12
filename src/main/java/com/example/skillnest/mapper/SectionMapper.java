@@ -14,6 +14,7 @@ public interface SectionMapper {
 
     @Mapping(source = "course.id", target = "courseId")
     @Mapping(source = "course.title", target = "courseTitle")
+    @Mapping(target = "lessons", source = "lessons")
     SectionResponse toSectionResponse(Section section);
 
     void updateSection(UpdateSectionRequest sectionRequest, @MappingTarget Section section);

@@ -15,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 public class UserResponse {
     UUID id;
     String fullName;
+    String avatarUrl;
     String email;
     LocalDate dob;
     String phoneNumber;

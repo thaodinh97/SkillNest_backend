@@ -3,6 +3,7 @@ package com.example.skillnest.services;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.transaction.Transactional;
@@ -95,9 +96,14 @@ public class UserService {
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
         userMapper.updateUser(user, request);
-        var roles = roleRepository.findAllById(request.getRoles());
-        user.setRoles(new HashSet<>(roles));
-        user.setDob(request.getDob());
+
+        if (request.getRoles() != null) {
+            var validRoleIds = request.getRoles().stream()
+                    .filter(Objects::nonNull)
+                    .toList();
+            var roles = roleRepository.findAllById(validRoleIds);
+            user.setRoles(new HashSet<>(roles));
+        }
         return userRepository.save(user);
     }
 

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +52,14 @@ public class SectionService {
                 .findById(UUID.fromString(sectionId))
                 .map(sectionMapper::toSectionResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+    }
+
+    public List<SectionResponse> getSectionsByCourseId(String courseId) {
+        UUID courseUuid = UUID.fromString(courseId);
+        Course course = courseRepository.findById(courseUuid)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        List<Section> sections = sectionRepository.findByCourse(course);
+        return sections.stream().map(sectionMapper::toSectionResponse).collect(Collectors.toList());
     }
 
     public SectionResponse updateSection(String sectionId, UpdateSectionRequest request) {

@@ -14,8 +14,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateUserRequest {
     String fullName;
+    String avatarUrl;
     String email;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate dob;
     String phoneNumber;
     List<String> roles;
