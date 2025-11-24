@@ -19,9 +19,13 @@ public interface OrderMapper {
     Order toOrder(OrderRequest orderRequest);
     OrderResponse toOrderResponse(Order order);
     @Mapping(target = "courseId", source = "course.id")
+    @Mapping(target = "courseName", source = "course.title")
+    @Mapping(target = "courseInstructor", source = "course.instructor.fullName")
+    @Mapping(target = "courseThumbnail", source = "course.thumbnailUrl")
     OrderItemResponse toOrderItemResponse(OrderItem orderItem);
     List<OrderItemResponse> toOrderItemResponses(List<OrderItem> items);
     @Mapping(target = "course", ignore = true)
     @Mapping(target = "order", ignore = true)
     OrderItem toOrderItem(OrderItemRequest orderItemRequest);
+
 }

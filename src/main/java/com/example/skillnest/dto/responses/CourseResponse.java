@@ -19,4 +19,5 @@ public class CourseResponse {
     Boolean isPublished;
     UUID instructorId;
     String instructorName;
+    String thumbnailUrl;
 }
