@@ -11,7 +11,10 @@ import java.util.UUID;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemResponse {
-    private UUID id;
-    private UUID courseId;
-    private Double price;
+    UUID id;
+    UUID courseId;
+    String courseName;
+    String courseThumbnail;
+    String courseInstructor;
+    Double price;
 }

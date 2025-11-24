@@ -15,6 +15,7 @@ public class CartItemResponse {
     UUID id;
     UUID courseId;
     String courseName;
+    String courseThumbnail;
     String courseInstructor;
     Double price;
 }

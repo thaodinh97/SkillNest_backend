@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.checkerframework.checker.units.qual.C;
 
 @Entity
 @Table(name = "courses")
@@ -24,6 +25,10 @@ public class Course {
     @Setter
     @Column(nullable = false, length = 250)
     String title;
+
+    @Setter
+    @Column(name = "thumbnail_url")
+    String thumbnailUrl;
 
     @Setter
     @Column(columnDefinition = "TEXT")
