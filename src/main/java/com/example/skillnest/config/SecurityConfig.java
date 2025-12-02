@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private String[] allowedOrigins;
     private final String[] PUBLIC_ENDPOINTS = {
-        "/api/v1/user/", "/api/v1/auth/login", "/api/v1/auth/verify", "/api/v1/auth/logout", "/api/v1/auth/refresh"
+        "/api/v1/user/", "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/verify", "/api/v1/auth/logout", "/api/v1/auth/refresh"
     };
 
     @Autowired
