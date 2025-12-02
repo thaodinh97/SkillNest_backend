@@ -2,11 +2,18 @@ package com.example.skillnest.services;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import com.example.skillnest.dto.requests.*;
+import com.example.skillnest.dto.responses.UserResponse;
+import com.example.skillnest.entity.Role;
+import com.example.skillnest.mapper.UserMapper;
+import com.example.skillnest.repositories.RoleRepository;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.example.skillnest.dto.requests.AuthRequest;
-import com.example.skillnest.dto.requests.IntrospectRequest;
-import com.example.skillnest.dto.requests.LogoutRequest;
-import com.example.skillnest.dto.requests.RefreshRequest;
 import com.example.skillnest.dto.responses.AuthResponse;
 import com.example.skillnest.dto.responses.IntrospectResponse;
 import com.example.skillnest.entity.InvalidatedToken;
@@ -44,6 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthService {
+    private final RoleRepository roleRepository;
     @NonFinal
     @Value("${jwt.secret}")
     protected String JWT_SECRET;
@@ -57,6 +61,7 @@ public class AuthService {
     protected Long JWT_REFRESHABLE_DURATION;
 
     UserRepository userRepository;
+    UserMapper userMapper;
     InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Transactional
@@ -74,6 +79,27 @@ public class AuthService {
         return AuthResponse.builder().token(token).isAuthenticated(true).build();
     }
 
+    public UserResponse register(CreateUserRequest request) {
+        boolean foundedUser = userRepository.existsByEmail(request.getEmail());
+        if (foundedUser) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+        User newUser = userMapper.toUser(request);
+        Role role = roleRepository.findById("user")
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(role);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        var hashedPassword = passwordEncoder.encode(request.getPassword());
+        newUser.setPassword(hashedPassword);
+        newUser.setPhoneNumber(request.getPhoneNumber());
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setRoles(new HashSet<Role>(roles));
+        userRepository.save(newUser);
+
+        return userMapper.toUserResponse(newUser);
+    }
     private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(JWT_SECRET.getBytes());
         SignedJWT jwt = SignedJWT.parse(token);

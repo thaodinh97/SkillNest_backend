@@ -1,24 +1,21 @@
 package com.example.skillnest.dto.requests;
 
-import java.time.LocalDate;
-
-import jakarta.validation.constraints.Size;
-
 import com.example.skillnest.validator.DobConstraint;
 import com.example.skillnest.validator.EmailConstraint;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateUserRequest {
+public class RegisterRequest {
     String fullName;
-
     @EmailConstraint(message = "INVALID_EMAIL")
     String email;
 
@@ -30,6 +27,6 @@ public class CreateUserRequest {
     String phoneNumber;
 
     @DobConstraint(min = 15, message = "INVALID_DOB")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate dob;
 }

@@ -2,15 +2,14 @@ package com.example.skillnest.controllers;
 
 import java.text.ParseException;
 
+import com.example.skillnest.dto.requests.*;
+import com.example.skillnest.dto.responses.UserResponse;
+import com.example.skillnest.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.skillnest.dto.requests.AuthRequest;
-import com.example.skillnest.dto.requests.IntrospectRequest;
-import com.example.skillnest.dto.requests.LogoutRequest;
-import com.example.skillnest.dto.requests.RefreshRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
 import com.example.skillnest.dto.responses.AuthResponse;
 import com.example.skillnest.dto.responses.IntrospectResponse;
@@ -29,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
     AuthService authService;
-
+    UserService userService;
     @PostMapping("/login")
     public ApiResponse<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         log.info("Login request: {}", authRequest);
@@ -37,6 +36,14 @@ public class AuthController {
         ApiResponse<AuthResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(result);
         return apiResponse;
+    }
+
+    @PostMapping("/register")
+    public ApiResponse<UserResponse> register(@RequestBody CreateUserRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .code(1000)
+                .result(authService.register(request))
+                .build();
     }
 
     @PostMapping("/verify")
