@@ -3,15 +3,15 @@ package com.example.skillnest.controllers;
 import com.example.skillnest.dto.requests.EnrollmentRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
 import com.example.skillnest.dto.responses.CheckEnrolledResponse;
+import com.example.skillnest.dto.responses.EnrolledCourseResponse;
 import com.example.skillnest.dto.responses.EnrollmentResponse;
 import com.example.skillnest.services.EnrollmentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/enroll")
@@ -35,4 +35,12 @@ public class EnrollController {
 //                .result(enrollmentService.checkEnrollment(enrollmentRequest))
 //                .build();
 //    }
+
+    @GetMapping("/my-courses")
+    public ApiResponse<List<EnrolledCourseResponse>> getMyCourses() {
+        return ApiResponse.<List<EnrolledCourseResponse>>builder()
+                .code(1000)
+                .result(enrollmentService.getEnrolledCourse())
+                .build();
+    }
 }
