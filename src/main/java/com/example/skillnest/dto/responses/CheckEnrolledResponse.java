@@ -1,4 +1,4 @@
-package com.example.skillnest.dto.requests;
+package com.example.skillnest.dto.responses;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EnrollmentRequest {
-    String courseId;
+public class CheckEnrolledResponse {
+    boolean enrolled;
 }
