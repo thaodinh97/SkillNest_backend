@@ -2,6 +2,7 @@ package com.example.skillnest.controllers;
 
 import com.example.skillnest.dto.requests.EnrollmentRequest;
 import com.example.skillnest.dto.responses.ApiResponse;
+import com.example.skillnest.dto.responses.CheckEnrolledResponse;
 import com.example.skillnest.dto.responses.EnrollmentResponse;
 import com.example.skillnest.services.EnrollmentService;
 import lombok.AccessLevel;
@@ -26,4 +27,12 @@ public class EnrollController {
                 .result(enrollmentService.enrollCourse(enrollmentRequest))
                 .build();
     }
+
+//    @PostMapping("/check")
+//    public ApiResponse<Boolean> checkEnrollment(@RequestBody EnrollmentRequest enrollmentRequest) {
+//        return ApiResponse.<Boolean>builder()
+//                .code(1000)
+//                .result(enrollmentService.checkEnrollment(enrollmentRequest))
+//                .build();
+//    }
 }

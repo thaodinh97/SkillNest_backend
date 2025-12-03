@@ -1,6 +1,7 @@
 package com.example.skillnest.services;
 
 import com.example.skillnest.dto.requests.EnrollmentRequest;
+import com.example.skillnest.dto.responses.CheckEnrolledResponse;
 import com.example.skillnest.dto.responses.EnrollmentResponse;
 import com.example.skillnest.entity.Course;
 import com.example.skillnest.entity.Enrollment;
@@ -15,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,8 +34,14 @@ public class EnrollmentService {
     public EnrollmentResponse enrollCourse(EnrollmentRequest enrollmentRequest) {
         Course course = courseRepository.findById(UUID.fromString(enrollmentRequest.getCourseId()))
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        User user = userRepository.findById(UUID.fromString(enrollmentRequest.getUserId()))
+        var context = SecurityContextHolder.getContext();
+        String userId = context.getAuthentication().getName();
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        boolean isEnrolled = enrollmentRepository.existsByUserAndCourse(user, course);
+        if (isEnrolled) {
+            throw new AppException(ErrorCode.USER_HAS_ENROLLED);
+        }
         Enrollment enrollment = enrollmentMapper.toEnrollment(enrollmentRequest);
         enrollment.setCourse(course);
         enrollment.setUser(user);
@@ -41,4 +49,10 @@ public class EnrollmentService {
         enrollmentRepository.save(enrollment);
         return enrollmentMapper.toEnrollmentResponse(enrollment);
     }
+//    public Boolean checkEnrollment(EnrollmentRequest enrollmentRequest) {
+//        Course course = courseRepository.findById(UUID.fromString(enrollmentRequest.getCourseId()))
+//                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+//        Boolean isEnrolled = enrollmentRepository.existsByUserAndCourse(user, course);
+//        return isEnrolled;
+//    }
 }
