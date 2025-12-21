@@ -1,6 +1,7 @@
 package com.example.skillnest.dto.responses;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.*;
@@ -20,4 +21,5 @@ public class CourseResponse {
     UUID instructorId;
     String instructorName;
     String thumbnailUrl;
+    List<SectionResponse> sections;
 }

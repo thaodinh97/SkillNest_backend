@@ -28,6 +28,7 @@ public interface CourseMapper {
 
     @Mapping(source = "instructor.id", target = "instructorId")
     @Mapping(source = "instructor.fullName", target = "instructorName")
+    @Mapping(target = "sections", source = "sections")
     CourseResponse toCourseResponse(Course course);
 
 

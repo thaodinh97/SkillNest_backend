@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: SkillNest
+
+  datasource:
+    url: jdbc:postgresql://ep-lingering-rain-a5qg05ag-pooler.us-east-2.aws.neon.tech/skill-nest?sslmode=require&channel_binding=require
+    driver-class-name: org.postgresql.Driver
+    username: digital-docs_owner
+    password: npg_Oo2uLhPtNDU0
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+jwt:
+  secret: b26a7f34505eccbf6733e02ecdd62b8aa2bb4e4b44fc31238642745a5f2da16b5a2a96ee20d8bfb42b7efba5a466caa856191b85fa40421f7e675f44ad02a121
+  valid-duration: 3600
+  refreshabl-duration: 36000
+
+app:
+  cors:
+    allowed-origins: >
+      http://skillnestedu.com:30081,
+      http://localhost:5173,
+      http://www.skillnestedu.com:30081
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
