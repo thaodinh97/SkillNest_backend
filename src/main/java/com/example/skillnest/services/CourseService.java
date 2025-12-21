@@ -34,7 +34,6 @@ import lombok.experimental.FieldDefaults;
 public class CourseService {
 
     CourseRepository courseRepository;
-    JwtUtil jwtUtil;
     UserRepository userRepository;
     CourseMapper courseMapper;
 

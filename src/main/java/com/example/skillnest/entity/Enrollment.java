@@ -27,4 +27,7 @@ public class Enrollment {
 
     @Column(nullable = false)
     private LocalDateTime enrolledAt;
+
+    @Column(name = "progress_percentage")
+    private Integer progressPercentage;
 }

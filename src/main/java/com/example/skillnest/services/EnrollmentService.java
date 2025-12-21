@@ -2,6 +2,8 @@ package com.example.skillnest.services;
 
 import com.example.skillnest.dto.requests.EnrollmentRequest;
 import com.example.skillnest.dto.responses.CheckEnrolledResponse;
+import com.example.skillnest.dto.responses.CourseResponse;
+import com.example.skillnest.dto.responses.EnrolledCourseResponse;
 import com.example.skillnest.dto.responses.EnrollmentResponse;
 import com.example.skillnest.entity.Course;
 import com.example.skillnest.entity.Enrollment;
@@ -20,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -55,4 +58,16 @@ public class EnrollmentService {
 //        Boolean isEnrolled = enrollmentRepository.existsByUserAndCourse(user, course);
 //        return isEnrolled;
 //    }
+
+    public List<EnrolledCourseResponse> getEnrolledCourse() {
+        var context = SecurityContextHolder.getContext();
+        String userId = context.getAuthentication().getName();
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        return enrollmentRepository.findByUser(user)
+                .stream()
+                .map(enrollmentMapper::toEnrolledCourseResponse)
+                .toList();
+    }
 }
