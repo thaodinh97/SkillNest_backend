@@ -24,6 +24,9 @@ public class Lesson {
     @Column(nullable = false, name = "lesson_order")
     private Integer order;
 
+    @Column(name = "video_public_id")
+    private String videoPublicId;
+
     @Column(name = "video_url")
     private String videoUrl;
 

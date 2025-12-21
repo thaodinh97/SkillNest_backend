@@ -12,6 +12,7 @@ public class LessonRequest {
     String title;
     String content;
     String videoUrl;
+    String videoPublicId;
     Integer order;
     String sectionId;
 }
