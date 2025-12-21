@@ -15,6 +15,7 @@ public class LessonResponse {
     UUID id;
     String title;
     Integer order;
+    String videoPublicId;
     String videoUrl;
     String content;
     UUID sectionId;

@@ -12,5 +12,6 @@ public class UpdateLessonRequest {
     String title;
     String content;
     String videoUrl;
+    String videoPublicId;
     Integer order;
 }
