@@ -34,9 +34,16 @@ public class CourseController {
         return response;
     }
 
-    @GetMapping("/")
-    public ApiResponse<List<CourseResponse>> getAllCourse(HttpServletRequest httpServletRequest) {
+    @GetMapping
+    public ApiResponse<List<CourseResponse>> getAllCourse(@RequestParam(required = false) UUID instructorId) {
+
         ApiResponse<List<CourseResponse>> response = new ApiResponse<>();
+        if (instructorId != null) {
+            return ApiResponse.<List<CourseResponse>>builder()
+                    .code(1000)
+                    .result(courseService.getCourseByInstructorId(instructorId))
+                    .build();
+        }
         response.setResult(courseService.getAllCourses());
         return response;
     }

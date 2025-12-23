@@ -68,6 +68,14 @@ public class CourseService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 
+    @Transactional
+    public List<CourseResponse> getCourseByInstructorId(UUID instructorId) {
+        return courseRepository
+                .findByInstructor_Id(instructorId)
+                .stream().map(courseMapper::toCourseResponse).collect(Collectors.toList());
+
+    }
+
     @PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Transactional
     public CourseResponse updateCourseById(String id, UpdateCourseRequest request) {
