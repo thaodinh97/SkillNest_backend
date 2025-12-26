@@ -43,7 +43,7 @@ public class LessonController {
                 .build();
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ApiResponse<LessonResponse> updateLesson(@PathVariable String id, @RequestBody UpdateLessonRequest lessonRequest) {
         return ApiResponse.<LessonResponse>builder()
                 .code(1000)

@@ -55,7 +55,7 @@ public class CourseController {
         return response;
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ApiResponse<CourseResponse> updateCourse(
             @PathVariable String id, @RequestBody UpdateCourseRequest request, HttpServletRequest httpServletRequest) {
         ApiResponse<CourseResponse> response = new ApiResponse<>();

@@ -37,7 +37,7 @@ public class CourseService {
     UserRepository userRepository;
     CourseMapper courseMapper;
 
-    @PreAuthorize("hasAuthority('CREATE_COURSE')")
+//    @PreAuthorize("hasAuthority('CREATE_COURSE')")
     @Transactional
     public CourseResponse createCourse(CreateCourseRequest request) {
 
@@ -76,7 +76,7 @@ public class CourseService {
 
     }
 
-    @PreAuthorize("hasAuthority('UPDATE_COURSE')")
+    //@PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Transactional
     public CourseResponse updateCourseById(String id, UpdateCourseRequest request) {
         log.info("Request to update course: {}", request);
@@ -84,9 +84,6 @@ public class CourseService {
         var course =
                 courseRepository.findById(courseId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         courseMapper.toUpdateCourse(request, course);
-        User instructor = userRepository.findById(UUID.fromString(request.getInstructorId()))
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        course.setInstructor(instructor);
         course.setIsPublished(request.getIsPublished());
         courseRepository.save(course);
         return courseRepository.findById(courseId).stream()
