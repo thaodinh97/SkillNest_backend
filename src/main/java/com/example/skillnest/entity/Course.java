@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.checkerframework.checker.units.qual.C;
+import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "courses")
@@ -46,6 +47,9 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", nullable = false)
     User instructor;
+
+    @Formula("(SELECT count(*) FROM enrollments e WHERE e.course_id = id)")
+    Long studentCount;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     List<Section> sections;

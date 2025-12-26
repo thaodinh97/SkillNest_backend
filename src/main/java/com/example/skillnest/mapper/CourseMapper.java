@@ -1,8 +1,6 @@
 package com.example.skillnest.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import com.example.skillnest.dto.requests.CreateCourseRequest;
 import com.example.skillnest.dto.requests.UpdateCourseRequest;
@@ -13,24 +11,12 @@ import com.example.skillnest.entity.Course;
 public interface CourseMapper {
     Course toCourse(CreateCourseRequest request);
 
-//    static CourseResponse toCourseResponse(Course course) {
-//        CourseResponse courseResponse = CourseResponse.builder()
-//                .id(course.getId())
-//                .title(course.getTitle())
-//                .price(course.getPrice())
-//                .description(course.getDescription())
-//                .instructorId(course.getInstructor().getId())
-//                .instructorName(course.getInstructor().getFullName())
-//                .build();
-//        return courseResponse;
-//    }
-//    ;
-
     @Mapping(source = "instructor.id", target = "instructorId")
     @Mapping(source = "instructor.fullName", target = "instructorName")
     @Mapping(target = "sections", source = "sections")
+    @Mapping(target = "studentCount", source = "studentCount")
     CourseResponse toCourseResponse(Course course);
 
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toUpdateCourse(UpdateCourseRequest request, @MappingTarget Course course);
 }

@@ -17,4 +17,5 @@ public class UpdateCourseRequest {
     Double price;
     Boolean isPublished;
     String instructorId;
+    String thumbnailUrl;
 }

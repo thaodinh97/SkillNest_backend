@@ -21,5 +21,6 @@ public class CourseResponse {
     UUID instructorId;
     String instructorName;
     String thumbnailUrl;
+    Long studentCount;
     List<SectionResponse> sections;
 }

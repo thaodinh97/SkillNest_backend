@@ -1,8 +1,10 @@
 package com.example.skillnest.services;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.skillnest.dto.requests.SignatureRequest;
 import com.example.skillnest.dto.responses.CloudinaryResponse;
+import com.example.skillnest.dto.responses.ImageUploadResponse;
 import com.example.skillnest.dto.responses.SignatureResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +49,23 @@ public class CloudinaryService {
         }
     }
 
-    
+    public ImageUploadResponse uploadImage(MultipartFile file, String folder, String publicId) {
+        try {
+            Map uploadRes = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "folder", folder,
+                            "public_id", publicId,
+                            "overwrite", true
+                    )
+            );
+
+            return ImageUploadResponse.builder()
+                    .imageUrl(uploadRes.get("secure_url").toString())
+                    .build();
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Upload image failed", e);
+        }
+    }
 }

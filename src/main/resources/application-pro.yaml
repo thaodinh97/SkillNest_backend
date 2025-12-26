@@ -3,7 +3,7 @@ spring:
     name: SkillNest
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://ep-lingering-rain-a5qg05ag-pooler.us-east-2.aws.neon.tech/skill-nest?sslmode=require&channel_binding=require}
+    url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
@@ -14,13 +14,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
 
 logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: INFO
 
 jwt:
   secret: ${JWT_SECRET}
@@ -29,7 +29,7 @@ jwt:
 
 app:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://skillnestedu.com:30081,http://localhost:5173}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://skillnestedu.com:30081}
 
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}

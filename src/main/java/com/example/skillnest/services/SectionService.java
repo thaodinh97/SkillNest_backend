@@ -72,7 +72,7 @@ public class SectionService {
     }
 
     public void deleteSection(String sectionId) {
-        if(sectionRepository.existsById(UUID.fromString(sectionId))){
+        if(!sectionRepository.existsById(UUID.fromString(sectionId))){
             throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
         }
         sectionRepository.deleteById(UUID.fromString(sectionId));
