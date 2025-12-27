@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
-@TestPropertySource("/test.properties")
+@TestPropertySource("/application-test.properties")
 public class SectionServiceTest {
     @Autowired
     private SectionService sectionService;

@@ -1,6 +1,5 @@
 package com.example.skillnest.controller;
 
-import com.example.skillnest.controllers.CourseController;
 import com.example.skillnest.dto.requests.CreateCourseRequest;
 import com.example.skillnest.dto.requests.UpdateCourseRequest;
 import com.example.skillnest.dto.responses.CourseResponse;
@@ -25,7 +24,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource("/test.properties")
+@TestPropertySource("/application-test.properties")
 public class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
