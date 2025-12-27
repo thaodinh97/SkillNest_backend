@@ -120,7 +120,7 @@ public class SectionServiceTest {
     @Test
     @WithMockUser(username = "testuser@gmail.com")
     void deleteSection_sectionNotExisted_success() {
-        Mockito.when(sectionRepository.existsById(UUID.fromString("21773b08-009d-46c7-9dd4-89d6bebfeb4c"))).thenReturn(true);
+        Mockito.when(sectionRepository.existsById(UUID.fromString("21773b08-009d-46c7-9dd4-89d6bebfeb4c"))).thenReturn(false);
         var exception = assertThrows(AppException.class, () -> sectionService.deleteSection("21773b08-009d-46c7-9dd4-89d6bebfeb4c"));
         Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1007);
     }

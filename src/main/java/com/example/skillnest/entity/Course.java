@@ -40,7 +40,7 @@ public class Course {
     Double price;
 
     @Setter
-    @Column(columnDefinition = "is_published")
+    @Column(name = "is_published")
     Boolean isPublished;
 
     @Setter

@@ -99,7 +99,7 @@ public class CourseControllerTest {
         String content = mapper.writeValueAsString(updateCourseRequest);
         Mockito.when(courseService.updateCourseById(courseId, updateCourseRequest)).thenReturn(updatedCourseResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/course/{id}", courseId)
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/course/{id}", courseId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
