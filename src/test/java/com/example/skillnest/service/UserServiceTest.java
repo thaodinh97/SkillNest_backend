@@ -24,7 +24,7 @@ import com.example.skillnest.repositories.UserRepository;
 import com.example.skillnest.services.UserService;
 
 @SpringBootTest
-@TestPropertySource("/test.properties")
+@TestPropertySource("/application-test.properties")
 public class UserServiceTest {
 
     @Autowired

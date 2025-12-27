@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource("/test.properties")
+@TestPropertySource("/application-test.properties")
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;

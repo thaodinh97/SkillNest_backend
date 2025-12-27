@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource("/test.properties")
+@TestPropertySource("/application-test.properties")
 public class SectionControllerTest {
     @Autowired
     private MockMvc mockMvc;
