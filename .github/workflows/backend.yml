@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: skillnest/skillnest-ecr
+  EKS_CLUSTER: gitops-eks
 jobs:
   testing:
     runs-on: ubuntu-latest
@@ -68,30 +72,44 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      - name: Scanning
-        uses: aquasecurity/trivy-action@22438a435773de8c97dc0958cc0b823c45b064ac
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          exit-code: 0
-          severity: 'CRITICAL,HIGH'
+#      - name: Scanning
+#        uses: aquasecurity/trivy-action@22438a435773de8c97dc0958cc0b823c45b064ac
+#        with:
+#          scan-type: 'fs'
+#          scan-ref: '.'
+#          exit-code: 0
+#          severity: 'CRITICAL,HIGH'
+#
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      - name: Build and Push Docker image
+#        run: |
+#          SHORT_SHA=$(echo ${{github.sha}} | cut -c1-7)
+#          IMAGE_TAG=v1-${SHORT_SHA}
+#          echo "Building image with tag: $IMAGE_TAG"
+#          docker build -f Dockerfile -t thaodinh426/skillnest-be:$IMAGE_TAG -t thaodinh426/skillnest-be:latest .
+#          docker push thaodinh426/skillnest-be:$IMAGE_TAG
+#          docker push thaodinh426/skillnest-be:latest
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker image
-        run: |
-          SHORT_SHA=$(echo ${{github.sha}} | cut -c1-7)
-          IMAGE_TAG=v1-${SHORT_SHA}
-          echo "Building image with tag: $IMAGE_TAG"
-          docker build -f Dockerfile -t thaodinh426/skillnest-be:$IMAGE_TAG -t thaodinh426/skillnest-be:latest .
-          docker push thaodinh426/skillnest-be:$IMAGE_TAG
-          docker push thaodinh426/skillnest-be:latest
+      - name: Build and Upload image to ECR
+        uses: appleboy/docker-ecr-action@28bd4062f91414d864fe770c772aca4c2ccfce0b
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry: ${{ secrets.REGISTRY }}
+          repo: ${{ env.ECR_REPOSITORY }}
+          region: ${{ env.AWS_REGION }}
+          tags: latest,${{ github.run_number }}
+          daemon_off: false
+          dockerfile: ./Dockerfile
+          context: ./
+
 
