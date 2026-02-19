@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 @Configuration
 public class CloudinaryConfig {
+    // test
     @Value("${cloudinary.cloud-name}")
     private String cloudName;
 
