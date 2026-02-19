@@ -28,10 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
     AuthService authService;
-    UserService userService;
     @PostMapping("/login")
     public ApiResponse<AuthResponse> login(@RequestBody AuthRequest authRequest) {
-        log.info("Login request: {}", authRequest);
         var result = authService.authenticate(authRequest);
         ApiResponse<AuthResponse> apiResponse = new ApiResponse<>();
         apiResponse.setResult(result);
