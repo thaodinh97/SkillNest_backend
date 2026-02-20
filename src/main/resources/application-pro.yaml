@@ -33,7 +33,7 @@ jwt:
 
 app:
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://skillnestedu.com:30081}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://skillnestedu.com:30081,https://d3j03es47k7wwd.cloudfront.net}
 
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}
