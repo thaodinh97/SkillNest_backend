@@ -48,7 +48,7 @@ jobs:
             -Dsonar.junit.reportsPath=target/surefire-reports \
             -Dsonar.jacoco.reportsPath=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
-            -Dsonar.coverage.exclusions="**/config/**/*.java
+            -Dsonar.coverage.exclusions="**/config/**/*.java"
 
       - name: SonarQube quality gate check
         id: sonarqube-quality-gate-check
